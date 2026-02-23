@@ -40,13 +40,20 @@ function Player(name, mark) {
 const GameController = (() => {
     const gameBoard = GameBoard();
 
-    const players = [
-        Player("Player 1", "X"),
-        Player("Player 2", "O")
-    ];
-
-    let activePlayer = players[0];
+    let players = [];
+    let activePlayer;
     let gameOver = false;
+
+    const init = (p1name, p2name) => {
+        players = [
+            Player(p1name, "X"),
+            Player(p2name, "O")
+        ]
+
+        activePlayer = players[0];
+        gameOver = false;
+        gameBoard.reset;
+    };
 
     const switchTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
@@ -114,12 +121,13 @@ const GameController = (() => {
         switchTurn();
     };
 
-    return { playRound, getBoard: gameBoard.getBoard, getActivePlayer, getPlayers };
+    return { playRound, getBoard: gameBoard.getBoard, getActivePlayer, getPlayers, init };
 })();
 
 const screenController = (() => {
     const boardDiv = document.querySelector(".board");
-    // const turn = document.querySelector(".turn");
+    const startDialog = document.querySelector(".startDialog");
+    const startBtn = document.querySelector(".startBtn");
     const player1Card = document.querySelector(".player1");
     const player2Card = document.querySelector(".player2");
     const player1Name = document.querySelector(".player1 > .name");
@@ -179,6 +187,17 @@ const screenController = (() => {
         render();
     });
 
-    render();
+    startBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const p1name = document.getElementById("p1-name").value || "Player 1";
+        const p2name = document.getElementById("p2-name").value || "Player 2";
+
+        GameController.init(p1name, p2name);
+        startDialog.close();
+        render();
+    });
+
+    startDialog.showModal();
 
 })();
