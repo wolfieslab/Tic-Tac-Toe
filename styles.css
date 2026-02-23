@@ -1,0 +1,120 @@
+:root {
+    --x-color: #ff6b81;        /* pastel red */
+    --x-bg: #ffe5ea;
+
+    --o-color: #4d96ff;        /* pastel blue */
+    --o-bg: #e3f0ff;
+
+    --neutral-bg: #f8f7f3;
+    --neutral-border: #d6d3cc;
+
+    --active-shadow: rgba(0, 0, 0, 0.1);
+}
+
+*,
+*::after, 
+*::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    margin-top: 5%;
+}
+
+.players {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.players > div {
+    display: flex;
+}
+
+.player1,
+.player2 {
+    background-color: #f4f1ea;
+    border: 2px solid #c9c5bd;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.players .name,
+.players .mark {
+    font-size: 2em;
+    color: #6e6c6c;
+    padding: 0.4em 0.8em;
+}
+
+.players .mark {
+    font-weight: bold;
+}
+
+.mark-x {
+    color: var(--x-color);
+    background-color: var(--x-bg);
+}
+
+.mark-o {
+    color: var(--o-color);
+    background-color: var(--o-bg);
+}
+
+.player1 > .mark {
+    background-color: var(--x-bg);
+    color: var(--x-color);
+    border-radius: 0 8px 8px 0;
+}
+
+.player2 > .mark {
+    background-color: var(--o-bg);
+    color: var(--o-color);
+    border-radius: 8px 0 0 8px;
+}
+
+.active {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px var(--active-shadow);
+}
+
+.active .name {
+    font-weight: bold;
+}
+
+.player1.active .mark-x {
+    box-shadow: 0 0 12px var(--x-color);
+}
+
+.player2.active .mark-o { 
+    box-shadow: 0 0 12px var(--o-color);
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    grid-template-rows: repeat(3, 100px);
+    width: auto;
+    gap: 1.5em;
+    margin: 8em;
+    align-items: center;
+    justify-content: center;
+}
+
+.board .cell-x {
+    color: var(--x-color);
+}
+
+.board .cell-o {
+    color: var(--o-color);
+}
+
+.board > button {
+    width: 100px;
+    height: 100px;
+    font-size: 4em;
+    border: none;
+    background-color: var(--neutral-bg);
+    transition: 0.2s ease;
+}

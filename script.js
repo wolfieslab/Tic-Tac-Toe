@@ -48,10 +48,13 @@ const GameController = (() => {
     let activePlayer = players[0];
     let gameOver = false;
 
-
     const switchTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
+
+    const getActivePlayer = () => activePlayer;
+
+    const getPlayers = () => players;
 
     const checkWinner = () => {
         const board = gameBoard.getBoard();
@@ -111,5 +114,71 @@ const GameController = (() => {
         switchTurn();
     };
 
-    return { playRound, getBoard: gameBoard.getBoard };
+    return { playRound, getBoard: gameBoard.getBoard, getActivePlayer, getPlayers };
+})();
+
+const screenController = (() => {
+    const boardDiv = document.querySelector(".board");
+    // const turn = document.querySelector(".turn");
+    const player1Card = document.querySelector(".player1");
+    const player2Card = document.querySelector(".player2");
+    const player1Name = document.querySelector(".player1 > .name");
+    const player2Name = document.querySelector(".player2 > .name");
+    const player1Mark = document.querySelector(".player1 > .mark");
+    const player2Mark = document.querySelector(".player2 > .mark");
+
+    const render = () => {
+        boardDiv.innerHTML = "";
+        const board = GameController.getBoard();
+        const activePlayer = GameController.getActivePlayer();
+        const players = GameController.getPlayers();
+        player1Name.textContent = players[0].name;
+        player1Mark.textContent = players[0].mark;
+        player2Name.textContent = players[1].name;
+        player2Mark.textContent = players[1].mark;
+
+        player1Card.classList.remove("active");
+        player2Card.classList.remove("active");
+
+        // Add active to current
+        if (activePlayer === players[0]) {
+            player1Card.classList.add("active");
+        } else {
+            player2Card.classList.add("active");
+        }
+
+        player1Mark.classList.add("mark-x");
+        player2Mark.classList.add("mark-o");
+
+        board.forEach((row, r) => {
+            row.forEach((cell, c) => {
+                const btn = document.createElement("button");
+                btn.textContent = cell;
+
+                if (cell === "X") {
+                    btn.classList.add("cell-x");
+                }
+                if (cell === "O") {
+                    btn.classList.add("cell-o");
+                }
+
+                btn.dataset.row = r;
+                btn.dataset.col = c;
+                boardDiv.appendChild(btn);
+            });
+        });
+    }
+
+    boardDiv.addEventListener("click", (e) => {
+        const row = e.target.dataset.row;
+        const col = e.target.dataset.col;
+
+        if (row === undefined) return;
+
+        GameController.playRound(Number(row), Number(col));
+        render();
+    });
+
+    render();
+
 })();
