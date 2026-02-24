@@ -52,7 +52,7 @@ const GameController = (() => {
 
         activePlayer = players[0];
         gameOver = false;
-        gameBoard.reset;
+        gameBoard.reset();
     };
 
     const switchTurn = () => {
@@ -109,25 +109,35 @@ const GameController = (() => {
         if (checkWinner()) {
             console.log(`${activePlayer.name} wins!`);
             gameOver = true;
-            return;
+            return { status : "win" , winner : activePlayer};
         }
 
         if (checkTie()) {
             console.log("It's a tie!")
             gameOver = true;
-            return;
+            return { status : "tie"};
         }
 
         switchTurn();
     };
 
-    return { playRound, getBoard: gameBoard.getBoard, getActivePlayer, getPlayers, init };
+    const restartGame = () => {
+        gameBoard.reset();
+        activePlayer = players[0];
+        gameOver = false;
+    };
+
+    return { playRound, getBoard: gameBoard.getBoard, getActivePlayer, getPlayers, init, restartGame };
 })();
 
 const screenController = (() => {
     const boardDiv = document.querySelector(".board");
     const startDialog = document.querySelector(".startDialog");
+    const endDialog = document.querySelector(".endDialog");
+    const restartBtn = document.querySelector(".restartBtn");
+    const resultText = document.querySelector(".result-text");
     const startBtn = document.querySelector(".startBtn");
+    const homeBtn = document.querySelector(".homeBtn");
     const player1Card = document.querySelector(".player1");
     const player2Card = document.querySelector(".player2");
     const player1Name = document.querySelector(".player1 > .name");
@@ -183,8 +193,23 @@ const screenController = (() => {
 
         if (row === undefined) return;
 
-        GameController.playRound(Number(row), Number(col));
+        const result = GameController.playRound(Number(row), Number(col));
         render();
+
+        if(!result) return;
+
+        if(result.status === "win" ) {
+            resultText.innerHTML = `
+                <h2>Congratulations</h2>
+                <h3>${result.winner.name} Wins! </h3>
+            `;
+        }
+
+        if(result.status === "tie") {
+            resultText.textContent = "It's a Tie!";
+        }
+
+        endDialog.showModal();
     });
 
     startBtn.addEventListener("click", (e) => {
@@ -196,6 +221,20 @@ const screenController = (() => {
         GameController.init(p1name, p2name);
         startDialog.close();
         render();
+    });
+
+    restartBtn.addEventListener("click", () => {
+        GameController.restartGame();
+        resultText.textContent = "";
+        endDialog.close();
+        render();
+    });
+
+    homeBtn.addEventListener("click", (e) => {
+        GameController.restartGame();
+        resultText.textContent = "";
+        endDialog.close();
+        startDialog.showModal();
     });
 
     startDialog.showModal();

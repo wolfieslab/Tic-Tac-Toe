@@ -23,10 +23,6 @@
     margin-top: 5%;
 }
 
-.startDialog {
-    padding: 4em 10em;
-}
-
 .startDialog h2 {
     font-size: 5em;
 }
@@ -35,13 +31,13 @@ dialog {
     margin: auto;
     border: none;
     border-radius: 16px;
-    padding: 2em;
+    padding: 4em 10em;
     background: #fffaf0;
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
 dialog::backdrop {
-    background: rgba(255, 250, 240, 1);
+    background: rgba(255, 250, 240, 0.3);
 }
 
 .modal-content {
@@ -56,6 +52,23 @@ dialog::backdrop {
     display: flex;
     gap: 2em;
 }
+
+.modal-content .result-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 2em;
+    gap: 0.3em;
+}
+
+.result-text > h2 {
+    font-size: 1.8em;
+}
+
+.result-text > h3 {
+    font-size: 1em;
+}
+
 
 dialog input {
     font-size: 1em;
@@ -75,9 +88,6 @@ dialog button {
     font-weight: bold;
     cursor: pointer;
 }
-
-
-
 
 .players {
     display: flex;
