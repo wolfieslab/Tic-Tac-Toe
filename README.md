@@ -4,7 +4,6 @@ A modern, pastel-themed Tic-Tac-Toe game built with vanilla JavaScript using fac
 
 Live demo: [Tic-Tac-Toe](https://wolfieslab.github.io/Tic-Tac-Toe/)
 
----
 
 ## ✨ Features
 
@@ -17,7 +16,6 @@ Live demo: [Tic-Tac-Toe](https://wolfieslab.github.io/Tic-Tac-Toe/)
 - 💬 Modal-based start and end screens
 - 🧠 Clean separation of logic and UI
 
----
 
 ## 🧩 Architecture
 
@@ -43,7 +41,6 @@ This project follows a modular pattern:
 - Controls dialogs
 - Syncs game state with interface
 
----
 
 ## 🎨 UI Design
 
@@ -53,7 +50,6 @@ This project follows a modular pattern:
 - Subtle shadows and hover animations
 - Gradient accents and blurred dialog backdrops
 
----
 
 ## 🚀 How to Run Locally
 
@@ -113,5 +109,3 @@ git clone https://github.com/your-username/tic-tac-toe.git
 ## 👤 Author
 
 Wolfie's Lab [GitHub Profile](https://github.com/wolfieslab)
-
----
