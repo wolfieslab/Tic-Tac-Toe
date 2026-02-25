@@ -165,19 +165,21 @@ const screenController = (() => {
             player2Card.classList.add("active");
         }
 
-        player1Mark.classList.add("mark-x");
-        player2Mark.classList.add("mark-o");
-
         board.forEach((row, r) => {
             row.forEach((cell, c) => {
                 const btn = document.createElement("button");
                 btn.textContent = cell;
 
+                if (cell === "") {
+                    btn.classList.add("empty");
+                }
                 if (cell === "X") {
                     btn.classList.add("cell-x");
+                    btn.classList.remove("empty");
                 }
                 if (cell === "O") {
                     btn.classList.add("cell-o");
+                    btn.classList.remove("empty");
                 }
 
                 btn.dataset.row = r;
@@ -230,7 +232,7 @@ const screenController = (() => {
         render();
     });
 
-    homeBtn.addEventListener("click", (e) => {
+    homeBtn.addEventListener("click", () => {
         GameController.restartGame();
         resultText.textContent = "";
         endDialog.close();

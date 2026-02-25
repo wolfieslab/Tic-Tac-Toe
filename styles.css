@@ -1,3 +1,12 @@
+@font-face {
+    font-family: 'Poppins';
+    src: url('font/Poppins-Regular.woff2') format('woff2'),
+        url('font/Poppins-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --x-color: #ff6b81;        /* pastel red */
     --x-bg: #ffe5ea;
@@ -19,32 +28,66 @@
     box-sizing: border-box;
 }
 
-.container {
-    margin-top: 5%;
+body {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
 }
 
-.startDialog h2 {
-    font-size: 5em;
+.container {
+    padding-top: 6%;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(
+        90deg,
+       #fdbcc6, 
+       #afd1ff
+    );
+    gap: 7em;
 }
 
 dialog {
     margin: auto;
     border: none;
     border-radius: 16px;
-    padding: 4em 10em;
-    background: #fffaf0;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    padding: 4em 8em;
+    background: white;
+    box-shadow: 0 20px 60px var(--active-shadow);
 }
 
 dialog::backdrop {
-    background: rgba(255, 250, 240, 0.3);
+    background: var(--active-shadow);
+    backdrop-filter: blur(6px);
+}
+
+dialog input {
+    font-size: 1em;
+    padding: 0.6em;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+}
+
+dialog button {
+    margin-top: 1em;
+    padding: 0.6em 1.8em;
+    border-radius: 50px;
+    border: none;
+    background: linear-gradient(90deg, var(--x-color), var(--o-color));
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+dialog button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px var(--active-shadow);
 }
 
 .modal-content {
     display: flex;
     flex-direction: column;
-    gap: 1em;
-    justify-content: center;
     align-items: center;
 }
 
@@ -62,31 +105,21 @@ dialog::backdrop {
 }
 
 .result-text > h2 {
-    font-size: 1.8em;
+    font-size: 2.2em;
+    color: #ff9f1c;
 }
 
 .result-text > h3 {
-    font-size: 1em;
-}
-
-
-dialog input {
-    font-size: 1em;
-    padding: 0.6em;
-    border-radius: 8px;
-    border: 2px solid #ddd;
-}
-
-dialog button {
-    margin-top: 1em;
-    padding: 0.6em 1.8em;
-    border-radius: 8px;
-    border: none;
-    background: #ffb703;
-    color: white;
     font-size: 1.2em;
     font-weight: bold;
-    cursor: pointer;
+}
+
+.startDialog h2 {
+    font-size: 3.5em;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--x-color), var(--o-color));
+    background-clip: text;
+    color: transparent;
 }
 
 .players {
@@ -101,9 +134,10 @@ dialog button {
 
 .player1,
 .player2 {
-    background-color: #f4f1ea;
-    border: 2px solid #c9c5bd;
-    border-radius: 10px;
+    background-color: white;
+    border: 1px solid var(--neutral-border);
+    border-radius: 16px;
+    box-shadow: 0 8px 20px var(--active-shadow);
     transition: all 0.3s ease;
 }
 
@@ -131,13 +165,13 @@ dialog button {
 .player1 > .mark {
     background-color: var(--x-bg);
     color: var(--x-color);
-    border-radius: 0 8px 8px 0;
+    border-radius: 0 14px 14px 0;
 }
 
 .player2 > .mark {
     background-color: var(--o-bg);
     color: var(--o-color);
-    border-radius: 8px 0 0 8px;
+    border-radius: 14px 0 0 14px;
 }
 
 .active {
@@ -149,23 +183,31 @@ dialog button {
     font-weight: bold;
 }
 
-.player1.active .mark-x {
+.player1.active  {
     box-shadow: 0 0 12px var(--x-color);
 }
 
-.player2.active .mark-o { 
+.player2.active  { 
     box-shadow: 0 0 12px var(--o-color);
+}
+
+.board-wrapper {
+    background-color: white;
+    padding: 1.4em;
+    border-radius: 24px;
+    box-shadow: 
+        0 20px 50px rgba(0,0,0,0.08),
+        0 5px 15px rgba(0,0,0,0.05);
 }
 
 .board {
     display: grid;
-    grid-template-columns: repeat(3, 100px);
-    grid-template-rows: repeat(3, 100px);
-    width: auto;
-    gap: 1.5em;
-    margin: 8em;
-    align-items: center;
-    justify-content: center;
+    grid-template-columns: repeat(3, 110px);
+    grid-template-rows: repeat(3, 110px);   
+    gap: 0.5em;
+    background-color: #e8e4dc;
+    border-radius: 10px;
+    padding: 0.5em;
 }
 
 .board .cell-x {
@@ -177,10 +219,34 @@ dialog button {
 }
 
 .board > button {
-    width: 100px;
-    height: 100px;
+    width: 110px;
+    height: 110px;
     font-size: 4em;
     border: none;
-    background-color: var(--neutral-bg);
+    background-color: white;
     transition: 0.2s ease;
+    cursor: pointer;
 }
+
+.board > button:hover.empty {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px var(--active-shadow);
+}
+
+dialog[open] {
+    animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+
